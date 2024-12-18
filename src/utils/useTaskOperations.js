@@ -8,30 +8,29 @@ export default function useTaskOperations({
   setEditTaskId,
   type,
 }) {
-  const allTasks = useSelector((state) => state);
-  const [todoTask, setTodoTask] = useState([]);
-  console.log("allTask from todo app ", allTasks);
+  const tasks = useSelector((state) =>
+    state.tasks.filter((task) => task.status === type)
+  );
+
   const dispatch = useDispatch();
 
   const handleDeleteTask = async (id) => {
     await axios.delete(`http://localhost:8000/tasks/${id}`).then(
       (response) => {
         var result = response.data;
-        console.log("result for delete is ", result);
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       }
     );
 
     await axios.get("http://localhost:8000/tasks").then(
       (response) => {
         var result = response.data;
-        console.log("result for get is ", result);
         dispatch(setData(result, {}));
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       }
     );
   };
@@ -41,14 +40,12 @@ export default function useTaskOperations({
     setEditTaskId(id);
   };
 
-  useEffect(() => {
-    console.log("allTask from todo app ", allTasks);
-    setTodoTask([]);
-    allTasks.tasks.map((task) => {
-      if (task.status === type)
-        setTodoTask((prevTodoTasks) => [...prevTodoTasks, task]);
-    });
-    console.log(todoTask);
-  }, [allTasks]);
-  return { todoTask, handleEdit, handleDeleteTask };
+  const tasksForSelectedType = () => {};
+
+  return {
+    todoTasks: tasks,
+    handleEdit,
+    handleDeleteTask,
+    tasksForSelectedType,
+  };
 }

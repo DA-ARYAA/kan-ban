@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { setData } from "../store/taskSlice";
 import useTaskOperations from "../utils/useTaskOperations";
@@ -6,8 +6,7 @@ import Task from "./Task";
 
 const ToDo = (props) => {
   const { openModal, setOpenModal, setEditTaskId } = props;
-
-  const { todoTask, handleEdit, handleDeleteTask } = useTaskOperations({
+  const { todoTasks, handleEdit, handleDeleteTask } = useTaskOperations({
     setData,
     setOpenModal,
     setEditTaskId,
@@ -19,19 +18,31 @@ const ToDo = (props) => {
       <div className="flex font-bold justify-center mt-2 border-b-4 border-white">
         To Do
       </div>
-      {todoTask.length > 0 ? (
-        <Droppable droppableId="to_do">
-          {() => (
-            <div className="m-5">
-              {todoTask.map((task) => {
+      {todoTasks.length ? (
+        <Droppable
+          droppableId="todo"
+          ignoreContainerClipping={false}
+          isDropDisabled={false}
+          isCombineEnabled={false}
+        >
+          {(provided) => (
+            <div
+              className="m-5"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {todoTasks.map((task, index) => {
                 return (
                   <Task
+                    index={index}
                     task={task}
                     handleEdit={handleEdit}
                     handleDeleteTask={handleDeleteTask}
+                    key={task.id}
                   />
                 );
               })}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>

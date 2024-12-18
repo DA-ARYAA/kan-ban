@@ -14,6 +14,5 @@ export default () => {
     //     return state;
     // }
   });
-  console.log(store.getState());
   return store;
 };
