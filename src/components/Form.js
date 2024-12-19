@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { getTaskById } from "../utils/TaskApis";
 
 const Form = (props) => {
   const {
@@ -11,19 +12,16 @@ const Form = (props) => {
     setEditTaskId,
   } = props;
 
+  const getSingleTask = async () => {
+    const result = await getTaskById(editTaskId);
+    console.log(result);
+    Object.keys(result).forEach((key) => {
+      setData((prevData) => ({ ...prevData, [key]: result[key] }));
+    });
+  };
   useEffect(() => {
     if (editTaskId) {
-      axios.get(`http://localhost:8000/tasks/${editTaskId}`).then(
-        (response) => {
-          var result = response.data;
-          Object.keys(result).forEach((key) => {
-            setData((prevData) => ({ ...prevData, [key]: result[key] }));
-          });
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
+      getSingleTask();
     }
   }, []);
 
@@ -40,31 +38,31 @@ const Form = (props) => {
     >
       <div
         data-dialog="sign-in-dialog"
-        className="relative mx-auto w-full max-w-[24rem] rounded-lg overflow-hidden shadow-sm"
+        class="relative mx-auto w-full max-w-[24rem] rounded-lg overflow-hidden shadow-sm"
       >
-        <div className="relative flex flex-col bg-white">
-          <div className="relative m-2.5 items-center flex justify-center text-white h-24 rounded-md bg-slate-800">
-            <h3 className="text-2xl">Add Task Details</h3>
+        <div class="relative flex flex-col bg-white">
+          <div class="relative m-2.5 items-center flex justify-center text-white h-24 rounded-md bg-slate-800">
+            <h3 class="text-2xl">Add Task Details</h3>
           </div>
-          <div className="flex flex-col gap-4 p-6">
-            <div className="w-full max-w-sm min-w-[200px]">
-              <label className="block mb-2 text-sm text-slate-600">Title</label>
+          <div class="flex flex-col gap-4 p-6">
+            <div class="w-full max-w-sm min-w-[200px]">
+              <label class="block mb-2 text-sm text-slate-600">Title</label>
               <input
                 type="text"
-                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                 placeholder="Your Title"
                 name="title"
                 value={data.title}
                 required
               />
             </div>
-            <div className="w-full max-w-sm min-w-[200px]">
-              <label className="block mb-2 text-sm text-slate-600">
+            <div class="w-full max-w-sm min-w-[200px]">
+              <label class="block mb-2 text-sm text-slate-600">
                 Description
               </label>
               <input
                 type="text"
-                className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                 placeholder="Your Description"
                 name="description"
                 value={data.description}
@@ -72,16 +70,16 @@ const Form = (props) => {
               />
             </div>
 
-            <div className="w-full max-w-sm min-w-[200px]">
+            <div class="w-full max-w-sm min-w-[200px]">
               <label
                 for="status"
-                className="block mb-2 text-sm font-medium text-white dark:text-black"
+                class="block mb-2 text-sm font-medium text-white dark:text-black"
               >
                 Select an option
               </label>
               <select
                 id="status"
-                className="bg-white  border border-white-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-white  border border-white-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="status"
                 value={data.status}
                 required
@@ -93,7 +91,7 @@ const Form = (props) => {
               </select>
             </div>
           </div>
-          <div className="p-6 pt-0">
+          <div class="p-6 pt-0">
             <div className="flex mt-2">
               <button
                 className=" px-5 py-1 bg-sky-400/100 rounded-md flex items-center max-w-sm  mx-auto"

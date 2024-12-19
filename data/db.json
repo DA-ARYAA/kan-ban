@@ -7,15 +7,15 @@
       "id": "a252"
     },
     {
-      "title": "task",
+      "title": "task a",
       "description": "adding task in in progress adding task in in progress adding task in in progress ",
-      "status": "in_progress",
+      "status": "to_do",
       "id": "186f"
     },
     {
-      "title": "adding task in in progress",
+      "title": "adding task in in progressa",
       "description": "adding task in in progress adding task in in progress adding task in in progress adding task in in progress adding task in in progress adding task in in progress adding task in in progress adding task in in progress adding task in in progress ",
-      "status": "to_do",
+      "status": "done",
       "id": "a70e"
     },
     {
@@ -27,7 +27,7 @@
     {
       "title": "to do title",
       "description": "description",
-      "status": "to_do",
+      "status": "in_progress",
       "id": "e3e6"
     },
     {
@@ -45,7 +45,7 @@
     {
       "title": "progress task ",
       "description": "progress task  progress task ",
-      "status": "done",
+      "status": "in_progress",
       "id": "91e2"
     },
     {
@@ -71,12 +71,6 @@
       "title": "adding some dummy task",
       "description": "some dummy details",
       "status": "to_do"
-    },
-    {
-      "title": "asdfasdf",
-      "description": "asdfasdf",
-      "status": "in_progress",
-      "id": "24a2"
     }
   ]
 }

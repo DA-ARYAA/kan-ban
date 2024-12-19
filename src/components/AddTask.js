@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import taskStore from "../store/taskStore";
 import Form from "./Form";
 import { setData as setStoreData } from "../store/taskSlice";
+import { addNewTask, getAllTasks, updateSingleTask } from "../utils/TaskApis";
 
 const AddTask = (props) => {
   const { openModal, setOpenModal, editTaskId, setEditTaskId } = props;
@@ -27,37 +28,14 @@ const AddTask = (props) => {
       return;
     }
     if (!editTaskId) {
-      // adding new task
-      axios.post("http://localhost:8000/tasks", data).then(
-        (response) => {
-          var result = response.data;
-          dispatch(addTask(result, {}));
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
+      const result = await addNewTask(data);
+      dispatch(addTask(result, {}));
       setOpenModal(false);
     } else {
-      // editing current task
-      await axios.put(`http://localhost:8000/tasks/${editTaskId}`, data).then(
-        (response) => {
-          var result = response.data;
-          // dispatch(addTask(result, {}));
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
-      await axios.get("http://localhost:8000/tasks").then(
-        (response) => {
-          var result = response.data;
-          dispatch(setStoreData(result, {}));
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
+      updateSingleTask(editTaskId, data);
+
+      const result = await getAllTasks();
+      dispatch(setStoreData(result, {}));
       setOpenModal(false);
     }
 

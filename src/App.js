@@ -9,6 +9,7 @@ import InProgress from "./components/InProgress";
 import ToDo from "./components/ToDo";
 import { setData } from "./store/taskSlice";
 import { useSelector } from "react-redux";
+import { getAllTasks } from "./utils/TaskApis";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,16 +17,13 @@ function App() {
   const [editTaskId, setEditTaskId] = useState(null);
   const tasks = useSelector((state) => state.tasks);
 
+  const callGetAllTasks = async () => {
+    const result = await getAllTasks();
+    dispatch(setData(result, {}));
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:8000/tasks").then(
-      (response) => {
-        var result = response.data;
-        dispatch(setData(result, {}));
-      },
-      (error) => {
-        // console.log(error);
-      }
-    );
+    callGetAllTasks();
   }, []);
 
   const handleDragEnd = async (result) => {

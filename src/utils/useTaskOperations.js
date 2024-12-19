@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteTaskById, getAllTasks } from "./TaskApis";
 
 export default function useTaskOperations({
   setData,
@@ -15,24 +16,9 @@ export default function useTaskOperations({
   const dispatch = useDispatch();
 
   const handleDeleteTask = async (id) => {
-    await axios.delete(`http://localhost:8000/tasks/${id}`).then(
-      (response) => {
-        var result = response.data;
-      },
-      (error) => {
-        // console.log(error);
-      }
-    );
-
-    await axios.get("http://localhost:8000/tasks").then(
-      (response) => {
-        var result = response.data;
-        dispatch(setData(result, {}));
-      },
-      (error) => {
-        // console.log(error);
-      }
-    );
+    await deleteTaskById(id);
+    const result = await getAllTasks();
+    dispatch(setData(result, {}));
   };
 
   const handleEdit = async (id) => {
